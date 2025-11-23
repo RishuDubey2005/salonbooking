@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Book Saloon - Home</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="topbar-title">
+      <span style="color: yellow; font-size: 20px; font-weight: 600;">
+        Book Your Salon, Save Your Time
+      </span>
+  </div>
+
+  <header class="topbar">
+  <!-- NAVIGATION MENU -->
+  <nav class="nav">
+    <div class="nav-item dropdown">
+      <span>Home ▼</span>
+      <div class="dropdown-menu">
+        <a href="index.html">Home</a>
+        <a href="offers.html">Offers</a>
+      </div>
+    </div>
+
+    <div class="nav-item dropdown">
+      <span>Customer Booking ▼</span>
+      <div class="dropdown-menu">
+        <a href="customer.html">Book Your Slot</a>
+        <a href="history.html">Appointments</a>
+      </div>
+    </div>
+
+    <!-- OWNER -->
+    <div class="nav-item dropdown">
+      <a><span>Login/Signup ▼</span></a>
+      <div class="dropdown-menu">
+
+        <!-- NEW: ADMIN LOGIN -->
+        <a href="admin-login.html">Admin Login</a>
+
+        <!-- SALON OWNER LOGIN -->
+        <a href="signin.html">Already registered Salon</a>
+
+        <!-- NEW OWNER SIGNUP -->
+        <a href="signup.html">Create New Salon Account</a>
+      </div>
+    </div>
+
+    <div class="nav-item dropdown">
+      <span>Services ▼</span>
+      <div class="dropdown-menu">
+        <a href="services.html">All Services</a>
+        <div >Haircut</div>
+        <div >Beard Trim</div>
+        <div >Hair Color</div>
+        <div>Head Massage</div>
+        <div >Facial Threading</div>
+      </div>
+    </div>
+
+    <div class="nav-item dropdown">
+      <span>About ▼</span>
+      <div class="dropdown-menu">
+        <a href="about.html">About Us</a>
+      </div>
+    </div>
+
+  </nav>
+</header>
+
+<main class="container">
+  <!-- ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️ ADDED SEARCH BAR -->
+   
+<section class="hero card">
+<h1 style="text-align: center;"><u>Find the best salons near you</u></h1>
+<p class="muted">Only salons created by owners appear here.</p>
+<section class="card">
+  <h2>Search Salon</h2>
+
+  <div class="search-row">
+    <input 
+      type="text" 
+      id="salonSearchBox" 
+      placeholder="Search salon by name…" 
+      class="input"
+      oninput="filterSalonSearch()"
+    >
+
+    <button id="clearSearchBtn" class="clear-btn">Clear</button>
+</div>
+<!-- LIVE DROPDOWN RESULTS -->
+<div  class="dropdown-search-list"></div>
+
+<!-- DROPDOWN SUGGESTIONS -->
+<ul id="searchDropdown" class="search-dropdown"></ul>
+
+  <!-- RECENT SEARCHES -->
+  <div id="recentBox" class="recent-box">
+    <span class="recent-header">
+      <button id="clearRecentBtn" class="clear-btn">Clear</button>
+    </span>
+    <div id="recentList"></div>
+  </div>
+  <div id="salonSearchResults" class="search-results"></div>
+</section>
+<a class="btn" href="customer.html">Book Your Slot</a>
+</section>
+
+
+<section class="card">
+<h2>Salons</h2>
+<div id="salonCardsContainer" class="grid"></div>
+</section>
+</main>
+
+
+<footer class="footer">© 2025 Book Saloon</footer>
+<script>
+// Load salons
+const searchBox = document.getElementById("salonSearchBox");
+const dropdown = document.getElementById("searchDropdown");
+const clearBtn = document.getElementById("clearSearchBtn");
+
+// Filter function
+function filterSalonSearch() {
+    const q = searchBox.value.trim().toLowerCase();
+
+    if (!q) {
+        dropdown.innerHTML = "";
+        dropdown.style.display = "none";
+        return;
+    }
+
+    const matches = salonsList.filter(s =>
+        s.name.toLowerCase().startsWith(q)
+    );
+
+    if (matches.length === 0) {
+        dropdown.innerHTML = "<div class='no-result'>No salons found</div>";
+        dropdown.style.display = "block";
+        return;
+    }
+
+    dropdown.innerHTML = matches
+      .map(s => `<div class="result-item" onclick="selectSalon('${s.id}')">${s.name}</div>`)
+      .join("");
+
+    dropdown.style.display = "block";
+}
+
+// When user clicks an option
+function selectSalon(id) {
+    localStorage.setItem("selected_salon", id);
+    window.location.href = "customer.html";
+}
+
+// Clear button
+clearBtn.onclick = () => {
+    searchBox.value = "";
+    dropdown.innerHTML = "";
+    dropdown.style.display = "none";
+};
+</script>
+
+
+<script src="salonCards.js"></script>
+<script src="search.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
